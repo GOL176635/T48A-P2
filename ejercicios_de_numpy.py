@@ -469,8 +469,8 @@ def add_broadcast(arr1, arr2):
   '''
   return arr1 + arr2
 
-arr1 = np.array([1, 2])
-arr2 = np.array([3, 4])
+arr1 = np.array([1, 2, 3],[1, 2, 3])
+arr2 = np.array([3],[4])
 add_broadcast(arr1, arr2).__repr__()
 
 """2. Subtract a NumPy array of shape (3, 2) from a NumPy array of shape (2, 3)."""
@@ -488,8 +488,8 @@ def subtract_broadcast(arr1, arr2):
   '''
   return arr1 - arr2
 
-arr1 = np.array([1, 2])
-arr2 = np.array([3, 4])
+arr1 = np.array([1, 2], [1, 2], [1, 2])
+arr2 = np.array([3, 4, 5], [3, 4, 5])
 subtract_broadcast(arr1, arr2).__repr__()
 
 """3. Multiply a NumPy array of shape (2, 3) by a NumPy array of shape (3, 2)."""
@@ -524,8 +524,8 @@ def divide_broadcast(arr1, arr2):
   '''
   return arr1 / arr2
 
-arr1 = np.array([1, 2])
-arr2 = np.array([3, 4])
+arr1 = np.array([1, 2, 3], [1, 2, 3])
+arr2 = np.array([3], [4])
 divide_broadcast(arr1, arr2).__repr__()
 
 """5. Calculate the element-wise product of two NumPy arrays of shape (2, 3)."""
