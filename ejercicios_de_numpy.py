@@ -469,8 +469,8 @@ def add_broadcast(arr1, arr2):
   '''
   return arr1 + arr2
 
-arr1 = np.array([1, 2, 3],[1, 2, 3])
-arr2 = np.array([3],[4])
+arr1 = np.array([[1, 2, 3 ],[3, 2, 3]])
+arr2 = np.array([[3], [5]])
 add_broadcast(arr1, arr2).__repr__()
 
 """2. Subtract a NumPy array of shape (3, 2) from a NumPy array of shape (2, 3)."""
@@ -486,10 +486,13 @@ def subtract_broadcast(arr1, arr2):
   arr2: numpy.ndarray
     arreglo de numpy de forma (2, 3).
   '''
-  return arr1 - arr2
+  arr1_reshaped = arr1[:2, :].reshape(2, 1, 2)
+  arr1_reshaped = arr1_reshaped + np.zeros((2,3,1), dtype=int)
+  arr1_reshaped = arr1_reshaped.reshape(2,3,2)[:, :, 0]
+  return arr2 - arr1_reshaped
 
-arr1 = np.array([1, 2], [1, 2], [1, 2])
-arr2 = np.array([3, 4, 5], [3, 4, 5])
+arr1 = np.array([[1, 2],[3, 2],[5, 2]])
+arr2 = np.array([[3, 4, 5], [5, 4, 9]])
 subtract_broadcast(arr1, arr2).__repr__()
 
 """3. Multiply a NumPy array of shape (2, 3) by a NumPy array of shape (3, 2)."""
@@ -524,8 +527,8 @@ def divide_broadcast(arr1, arr2):
   '''
   return arr1 / arr2
 
-arr1 = np.array([1, 2, 3], [1, 2, 3])
-arr2 = np.array([3], [4])
+arr1 = np.array([[1, 2, 3],[1, 2, 4]])
+arr2 = np.array([[3],[4]])
 divide_broadcast(arr1, arr2).__repr__()
 
 """5. Calculate the element-wise product of two NumPy arrays of shape (2, 3)."""
@@ -569,6 +572,7 @@ temp_data(arr).__repr__()
 """2. Rainfall Data: You have a 2D NumPy array representing monthly rainfall (in mm) for different cities.  Create a boolean mask to find the locations where rainfall exceeded 100 mm in any month.  Print the city indices (row numbers) that meet this condition."""
 
 def rainfall_data(rainfall):
+
   '''Imprime los índices de las ciudades que tuvieron más de 100 mm de lluvia
 
   Parameters
@@ -576,17 +580,11 @@ def rainfall_data(rainfall):
   rainfall: numpy.ndarray
     arreglo 2D de numpy de lluvia en mm y ciudades.
   '''
+  indices = np.where(rainfall > 100)
+  indices_lineales = np.ravel_multi_index(indices, rainfall.shape)
+  print("Índices de las ciudades con más de 100 mm de lluvia:", indices_lineales)
 
-  return np.where(np.any(rainfall > 100, axis=1))[0]
 
-rf = np.array([
-    [50, 60, 70, 80, 90],
-    [120, 90, 80, 70, 60],
-    [60, 70, 80, 90, 100],
-    [110, 130, 120, 110, 100],
-    [70, 80, 90, 100, 110]
-])
-rainfall_data(rf).__repr__()
 
 """3. Image Thresholding:  Imagine a grayscale image represented as a 2D NumPy array.  Create a mask to select pixels with intensity values greater than a certain threshold (e.g., 128).  Set the values of these pixels to 255 (white) and the remaining pixels to 0 (black). This simulates a simple image thresholding operation."""
 
@@ -598,11 +596,13 @@ def image_thresholding(image):
   image: numpy.ndarray
     arreglo 2D de numpy de una imagen en escala de grises.
   '''
-  image[image >= 128] = 255
-  image[image < 128] = 0
-  return image
+  threshold = 128
+  binary_image = np.where(image >= threshold, 255, 0)
+  return binary_image
 
-image_thresholding(rf).__repr__()
+np.random.seed(10)
+array = np.random.randint(0, 256, size=(5, 5))
+image_thresholding(array).__repr__()
 
 """### Fancy Indexing
 
@@ -622,6 +622,13 @@ def matrix_diagonals(matrix):
     - matrix.shape == (5, 5)
   '''
   assert matrix.shape == (5, 5), 'La matriz debe ser de 5x5'
+  main_diagonal = matrix[np.arange(5), np.arange(5)]
+  anti_diagonal = matrix[np.arange(5), np.arange(4, -1, -1)]
+  return main_diagonal, anti_diagonal
+
+np.random.seed(10)
+array = np.random.randint(0, 256, size=(5, 5))
+matrix_diagonals(array).__repr__()
 
 import doctest
 doctest.testmod()
